@@ -41,3 +41,20 @@ build [] = Leaf
 inOrder :: MessageTree -> [LogMessage]
 inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
 inOrder Leaf = []
+
+-- find out what went wrong from log messages
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong logs = map extractString (relevantErrors logs)
+
+extractString :: LogMessage -> String
+extractString (LogMessage _ _ string) = string
+extractString _ = ""
+
+relevantErrors :: [LogMessage] -> [LogMessage]
+relevantErrors logs = filter isRelevantError (inOrder (build logs))
+
+isRelevantError :: LogMessage -> Bool
+isRelevantError (LogMessage (Error severity) _ _)
+  = if severity < 50 then False else True
+isRelevantError _ = False
+
