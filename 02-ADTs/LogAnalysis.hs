@@ -32,3 +32,7 @@ insert msg Leaf = Node Leaf msg Leaf
 -- evaluate to nonsensical value for unexpected inputs?
 insert _ _ = (Node Leaf (Unknown "") Leaf)
 
+-- build a sorted binary search tree from logs
+build :: [LogMessage] -> MessageTree
+build (msg:others) = insert msg (build others)
+build [] = Leaf
