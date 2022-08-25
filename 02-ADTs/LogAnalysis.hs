@@ -36,3 +36,8 @@ insert _ _ = (Node Leaf (Unknown "") Leaf)
 build :: [LogMessage] -> MessageTree
 build (msg:others) = insert msg (build others)
 build [] = Leaf
+
+-- build ordered list from sorted binary tree
+inOrder :: MessageTree -> [LogMessage]
+inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
+inOrder Leaf = []
