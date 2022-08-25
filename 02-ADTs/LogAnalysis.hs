@@ -17,6 +17,7 @@ parseMessage' ("I":timestamp:rest) =
   LogMessage Info (read timestamp) (unwords rest)
 parseMessage' other = Unknown (unwords other)
 
+-- parse a log file
 parse :: String -> [LogMessage]
 parse logMessages = map parseMessage (lines logMessages)
 
