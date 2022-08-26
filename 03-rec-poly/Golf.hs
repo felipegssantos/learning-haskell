@@ -31,3 +31,14 @@ getEveryNthFromIndexedList :: [a] -> Int -> [(a, Int)]
 getEveryNthFromIndexedList list n
   = filter (\(_, i) -> i `mod` n == 0) (zip list [1..(length list)])
 
+
+{-
+Exercise 2: Local maxima
+-}
+
+localMaxima :: [Integer] -> [Integer]
+localMaxima (x:y:z:xs)
+  | y > (maximum [x, z]) = y : (localMaxima (z:xs))
+  | otherwise = localMaxima (y:z:xs)
+localMaxima _ = []
+
