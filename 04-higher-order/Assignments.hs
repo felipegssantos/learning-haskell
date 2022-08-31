@@ -68,3 +68,7 @@ xor = odd . (foldr incrementIfTrue 0)
 incrementIfTrue :: Bool -> Integer -> Integer
 incrementIfTrue b n = if b then n + 1 else n
 
+-- 3.2
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x list -> (f x) : list) []
+
