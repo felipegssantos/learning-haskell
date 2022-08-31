@@ -76,3 +76,16 @@ map' f = foldr (\x list -> (f x) : list) []
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
 myFoldl f z xs = foldr (\b a -> f a b) z (reverse xs)
 
+{-
+Exercise 4: Finding primes
+-}
+
+sieveSundaram :: Integer -> [Integer]
+sieveSundaram n = map (\x -> 2 * x + 1) (filter (keep n) [1..n])
+
+keep :: Integer -> Integer -> Bool
+keep n x = not $ x `elem` (removalList n)
+
+removalList :: Integer -> [Integer]
+removalList n = [i + j + 2*i*j | i <- [1..n], j <- [i..n], i + j + 2*i*j <= n]
+
