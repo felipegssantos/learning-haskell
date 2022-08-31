@@ -57,3 +57,14 @@ isFull Leaf = True
 isFull (Node _ left _ right) = (height left == height right)
                                && isFull left && isFull right
 
+{-
+Exercise 3: More folds!
+-}
+
+-- 3.1
+xor :: [Bool] -> Bool
+xor = odd . (foldr incrementIfTrue 0)
+
+incrementIfTrue :: Bool -> Integer -> Integer
+incrementIfTrue b n = if b then n + 1 else n
+
