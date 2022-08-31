@@ -72,3 +72,7 @@ incrementIfTrue b n = if b then n + 1 else n
 map' :: (a -> b) -> [a] -> [b]
 map' f = foldr (\x list -> (f x) : list) []
 
+-- 3.3
+myFoldl :: (a -> b -> a) -> a -> [b] -> a
+myFoldl f z xs = foldr (\b a -> f a b) z (reverse xs)
+
