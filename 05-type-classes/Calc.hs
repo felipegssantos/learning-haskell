@@ -29,3 +29,28 @@ instance Expr ExprT where
   add = Add
   mul = Mul
 
+-- Exercise 4: instances of type class
+instance Expr Integer where
+  lit = id
+  add = (+)
+  mul = (*)
+
+instance Expr Bool where
+  lit = (>0)
+  add = (||)
+  mul = (&&)
+
+instance Expr MinMax where
+  lit = MinMax
+  add = max
+  mul = min
+
+newtype MinMax = MinMax Integer deriving (Eq, Show, Ord)
+
+instance Expr Mod7 where
+  lit = Mod7 . (`mod` 7)
+  add (Mod7 n) (Mod7 m) = lit (n + m)
+  mul (Mod7 n) (Mod7 m) = lit (n * m)
+
+newtype Mod7 = Mod7 Integer deriving (Eq, Show)
+
