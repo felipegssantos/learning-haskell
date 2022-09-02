@@ -1,19 +1,21 @@
+{-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module Calc where
 
 import ExprT
 import Parser
+import StackVM
 
 -- Exercise 1: evaluate expressions
 eval :: ExprT -> Integer
-eval (Lit n) = n
-eval (Add n m) = (eval n) + (eval m)
-eval (Mul n m) = (eval n) * (eval m)
+eval (ExprT.Lit n) = n
+eval (ExprT.Add n m) = (eval n) + (eval m)
+eval (ExprT.Mul n m) = (eval n) * (eval m)
 
 -- Exercise 2: parse and evaluate
 evalStr :: String -> Maybe Integer
-evalStr = evalIfJust . (parseExp Lit Add Mul)
+evalStr = evalIfJust . (parseExp ExprT.Lit ExprT.Add ExprT.Mul)
 
 evalIfJust :: Maybe ExprT -> Maybe Integer
 evalIfJust = maybe Nothing (\x -> Just (eval x))
@@ -25,9 +27,9 @@ class Expr a where
   mul :: a -> a -> a
 
 instance Expr ExprT where
-  lit = Lit
-  add = Add
-  mul = Mul
+  lit = ExprT.Lit
+  add = ExprT.Add
+  mul = ExprT.Mul
 
 -- Exercise 4: instances of type class
 instance Expr Integer where
@@ -53,4 +55,10 @@ instance Expr Mod7 where
   mul (Mod7 n) (Mod7 m) = lit (n * m)
 
 newtype Mod7 = Mod7 Integer deriving (Eq, Show)
+
+-- Exercise 5: compiler for arithmetic expressions
+instance Expr Program where
+  lit n = [PushI n]
+  add x y = x ++ y ++ [StackVM.Add]
+  mul x y = x ++ y ++ [StackVM.Mul]
 
