@@ -12,4 +12,6 @@ fibs1 :: [Integer]
 fibs1 = map fib [0..]
 
 -- Exercise 2: refactored fibonacci
+fibs2 :: [Integer]
+fibs2 = map fst $ iterate (\(x, y) -> (y, x + y)) (0, 1)
 
