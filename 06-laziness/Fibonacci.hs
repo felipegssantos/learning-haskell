@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module Fibonacci where
@@ -92,4 +93,22 @@ data ZeroOrOne = Zero | One
   deriving (Show, Eq)
 
 type Binary = [ZeroOrOne]
+
+-- Exercise 6: Fibonacci with generating functions
+x :: Stream Integer
+x = Stream 0 (Stream 1 $ streamRepeat 0)
+
+instance Num (Stream Integer) where
+  fromInteger n = Stream n (streamRepeat 0)
+  negate (Stream a0 a') = Stream (-a0) (negate a')
+  (+) (Stream a0 a') (Stream b0 b') = Stream (a0 + b0) (a' + b')
+  (*) a@(Stream a0 a') b@(Stream b0 b')
+    = Stream (a0 * b0) ((streamMap (*a0) b') + a' * b)
+
+instance Fractional (Stream Integer) where
+  (/) a@(Stream a0 a') b@(Stream b0 b')
+    = Stream (a0 `div` b0) $ streamMap (`div` b0) (a' - (a / b) * b')
+
+fibs3 :: Stream Integer
+fibs3 = x / (1 - x - x^2)
 
