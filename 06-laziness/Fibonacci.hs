@@ -24,3 +24,13 @@ streamToList (Stream x xs) = x : (streamToList xs)
 instance Show a => Show (Stream a) where
   show stream = show $ take 10 (streamToList stream)
 
+-- Exercise 4: stream generation and mapping
+streamRepeat :: a -> Stream a
+streamRepeat x = Stream x (streamRepeat x)
+
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap f (Stream x xs) = Stream (f x) (streamMap f xs)
+
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed f x = Stream x (streamFromSeed f (f x))
+
