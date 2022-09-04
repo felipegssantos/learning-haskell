@@ -112,3 +112,17 @@ instance Fractional (Stream Integer) where
 fibs3 :: Stream Integer
 fibs3 = x / (1 - x - x^2)
 
+-- Exercise 7: Fibonacci numbers via matrices
+data Matrix = Matrix Integer Integer Integer Integer
+  deriving Show
+
+instance Num Matrix where
+  (*) (Matrix a11 a12 a21 a22) (Matrix b11 b12 b21 b22)
+    = Matrix (a11 * b11 + a12 * b21) (a11 * b12 + a12 * b22)
+             (a21 * b11 + a22 * b21) (a21 * b12 + a22 * b22)
+
+fib4 :: Integer -> Integer
+fib4 0 = 0
+fib4 n = projectOut $ (Matrix 1 1 1 0)^n
+  where projectOut (Matrix _ _ a21 _) = a21
+
