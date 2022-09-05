@@ -24,5 +24,7 @@ instance Sized b => Sized (a,b) where
   size = size . snd
 
 instance Monoid Size where
-  mempty  = Size 0
-  mappend = (+)
+  mempty = Size 0
+
+instance Semigroup Size where
+  (<>) = (+)
