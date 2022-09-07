@@ -11,6 +11,8 @@ data JoinList m a = Empty
 
 -- Exercise 1: append joinlists using monoidal operation
 (+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
+(+++) Empty jlist = jlist
+(+++) jlist Empty = jlist
 (+++) jlist1 jlist2 = Append (tag jlist1 <> tag jlist2) jlist1 jlist2
 
 tag :: Monoid m => JoinList m a -> m
