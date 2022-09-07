@@ -46,3 +46,15 @@ dropJ n jlist@(Append b left right)
   | n <= tagSize left = (dropJ n left) +++ right
   | otherwise = dropJ (n - tagSize left) right
 
+-- Exercise 2.3: take from JoinList
+takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
+takeJ _ Empty = Empty
+takeJ n single@(Single _ _)
+  | n > 0 = single
+  | otherwise = Empty
+takeJ n jlist@(Append b left right)
+  | n <= 0 = Empty
+  | n >= (getSize . size) b = jlist
+  | n <= tagSize left = takeJ n left
+  | otherwise = left +++ (takeJ (n - tagSize left) right)
+
