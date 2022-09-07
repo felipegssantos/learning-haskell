@@ -34,3 +34,15 @@ indexJ n (Single _ a)
   | n == 0 = Just a -- Single's have a single index: zero
   | otherwise = Nothing
 
+-- Exercise 2.2: drop from JoinList
+dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
+dropJ _ Empty = Empty
+dropJ n single@(Single _ _)
+  | n > 0 = Empty
+  | otherwise = single
+dropJ n jlist@(Append b left right)
+  | n <= 0 = jlist
+  | n >= (getSize . size) b = Empty
+  | n <= tagSize left = (dropJ n left) +++ right
+  | otherwise = dropJ (n - tagSize left) right
+
