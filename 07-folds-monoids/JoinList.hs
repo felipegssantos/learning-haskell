@@ -2,6 +2,7 @@
 
 module JoinList where
 
+import Scrabble
 import Sized
 
 data JoinList m a = Empty
@@ -57,4 +58,8 @@ takeJ n jlist@(Append b left right)
   | n >= (getSize . size) b = jlist
   | n <= tagSize left = takeJ n left
   | otherwise = left +++ (takeJ (n - tagSize left) right)
+
+-- Exercise 3: change scoring to Scrabble's
+scoreLine :: String -> JoinList Score String
+scoreLine string = Single (scoreString string) string
 
