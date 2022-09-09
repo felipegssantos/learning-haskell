@@ -4,6 +4,7 @@
 module Party where
 
 import Employee
+import Data.Tree
 
 -- Exercise 1
 -- 1.1: add an employee to the guest list and update the fun
@@ -24,4 +25,9 @@ moreFun :: GuestList -> GuestList -> GuestList
 moreFun gl1@(GL _ f1) gl2@(GL _ f2)
   | f1 > f2 = gl1
   | otherwise = gl2
+
+-- Exercise 2: fold trees
+foldTree' :: (a -> [b] -> b) -> Tree a -> b
+foldTree' f (Node a []) = f a []
+foldTree' f (Node a trees) = f a (map (foldTree' f) trees)
 
