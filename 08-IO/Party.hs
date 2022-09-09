@@ -22,12 +22,21 @@ instance Monoid GuestList where
 
 -- 1.3: compare fun of guest lists
 moreFun :: GuestList -> GuestList -> GuestList
-moreFun gl1@(GL _ f1) gl2@(GL _ f2)
-  | f1 > f2 = gl1
+moreFun gl1 gl2
+  | gl1 > gl2 = gl1
   | otherwise = gl2
 
 -- Exercise 2: fold trees
 foldTree' :: (a -> [b] -> b) -> Tree a -> b
 foldTree' f (Node a []) = f a []
 foldTree' f (Node a trees) = f a (map (foldTree' f) trees)
+
+-- Exercise 3: guest lists with or without bosses
+nextLevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
+nextLevel emp [] = (glCons emp mempty, mempty)
+nextLevel boss guestLists
+  = (
+      foldr (<>) (glCons boss mempty) (map snd guestLists),
+      foldr (<>) mempty (map (uncurry moreFun) guestLists)
+    )
 
