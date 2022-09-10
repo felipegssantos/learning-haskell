@@ -57,3 +57,13 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
+
+-- Exercise 1: build a functor instance for Parser
+instance Functor Parser where
+  fmap f pa = Parser go
+    where
+      go input = (applyFirst f) <$> runParser pa input
+
+applyFirst :: (a -> b) -> (a, c) -> (b, c)
+applyFirst f (a, c) = (f a, c)
+
