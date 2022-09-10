@@ -40,3 +40,11 @@ nextLevel boss guestLists
       foldr (<>) mempty (map (uncurry moreFun) guestLists)
     )
 
+-- Exercise  4: maximize overall fun
+maxFun :: Tree Employee -> GuestList
+maxFun tree = (uncurry moreFun) (buildGuestLists tree)
+
+buildGuestLists :: Tree Employee -> (GuestList, GuestList)
+buildGuestLists (Node emp []) = nextLevel emp []
+buildGuestLists (Node boss trees) = nextLevel boss (map buildGuestLists trees)
+
