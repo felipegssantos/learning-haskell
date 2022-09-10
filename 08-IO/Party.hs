@@ -48,3 +48,20 @@ buildGuestLists :: Tree Employee -> (GuestList, GuestList)
 buildGuestLists (Node emp []) = nextLevel emp []
 buildGuestLists (Node boss trees) = nextLevel boss (map buildGuestLists trees)
 
+-- Exercise 5: read from company file and maximize fun
+main :: IO ()
+main = readFile "company.txt" >>= putGuestList
+
+putGuestList :: String -> IO ()
+putGuestList = putStr . (join "\n") . formatGL . maxFun . readEmployees
+
+join :: String -> [String] -> String
+join sep list = foldr (\x xs -> x ++ sep ++ xs) "" list
+
+formatGL :: GuestList -> [String]
+formatGL (GL employees fun)
+  = ("Total fun: " ++ show fun) : (map empName employees)
+
+readEmployees :: String -> Tree Employee
+readEmployees = read
+
