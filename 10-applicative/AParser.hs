@@ -67,3 +67,17 @@ instance Functor Parser where
 applyFirst :: (a -> b) -> (a, c) -> (b, c)
 applyFirst f (a, c) = (f a, c)
 
+-- Exercise 2: build an applicative instance for Parser
+instance Applicative Parser where
+  pure a = Parser (\str -> Just (a, str))
+  pf <*> pa = Parser go
+    where
+      go input = case (func, value) of
+        (Just (f, _), Just (a, rest)) -> Just (f a, rest)
+        _ -> Nothing
+        where
+          func = runParser pf input
+          value = case func of
+            Just (_, rest) -> runParser pa rest
+            _ -> Nothing
+
