@@ -92,3 +92,10 @@ intPair :: Parser [Integer]
 intPair = (\x y -> [x, y]) <$> parseFirst <*> posInt
   where parseFirst = (\x _ -> x) <$> posInt <*> char ' '
 
+-- Exercise 4: build an alternative instance for Parser
+instance Alternative Parser where
+  empty = Parser (const Nothing)
+  p1 <|> p2 = Parser go
+    where
+      go input = (runParser p1 input) <|> (runParser p2 input)
+
