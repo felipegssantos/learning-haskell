@@ -81,3 +81,14 @@ instance Applicative Parser where
             Just (_, rest) -> runParser pa rest
             _ -> Nothing
 
+-- Exercise 3: testing the applicative instance
+abParser :: Parser (Char, Char)
+abParser = (\a b -> (a, b)) <$> (char 'a') <*> (char 'b')
+
+abParser_ :: Parser ()
+abParser_ = (\_ _ -> ()) <$> (char 'a') <*> (char 'b')
+
+intPair :: Parser [Integer]
+intPair = (\x y -> [x, y]) <$> parseFirst <*> posInt
+  where parseFirst = (\x _ -> x) <$> posInt <*> char ' '
+
