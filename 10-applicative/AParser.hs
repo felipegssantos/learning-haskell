@@ -99,3 +99,7 @@ instance Alternative Parser where
     where
       go input = (runParser p1 input) <|> (runParser p2 input)
 
+-- Exercise 5: parse either an integer or an uppercase character
+intOrUppercase :: Parser ()
+intOrUppercase = (const () <$> posInt) <|> (const () <$> satisfy isUpper)
+
