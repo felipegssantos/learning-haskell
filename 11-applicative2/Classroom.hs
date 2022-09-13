@@ -34,7 +34,12 @@ mapA :: Applicative f => (a -> f b) -> ([a] -> f [b])
 mapA g = foldr cons_g (pure [])
   where cons_g x ys = liftA2 (:) (g x) ys
 
--- sequenceA :: Applicative f => [f a] -> f [a]
+{-
+We can just use mapA along with a function with type f a -> f a. The
+identity function has this type signature and exists for all types.
+-}
+sequenceA :: Applicative f => [f a] -> f [a]
+sequenceA = mapA id
 
 replicateA :: Applicative f => Int -> f a -> f [a]
 replicateA n fa = (replicate n) <$> fa
