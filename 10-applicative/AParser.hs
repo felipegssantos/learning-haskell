@@ -87,9 +87,7 @@ intPair = (\x y -> [x, y]) <$> parseFirst <*> posInt
 -- Exercise 4: build an alternative instance for Parser
 instance Alternative Parser where
   empty = Parser (const Nothing)
-  p1 <|> p2 = Parser go
-    where
-      go input = (runParser p1 input) <|> (runParser p2 input)
+  Parser p1 <|> Parser p2 = Parser $ liftA2 (<|>) p1 p2
 
 -- Exercise 5: parse either an integer or an uppercase character
 intOrUppercase :: Parser ()
