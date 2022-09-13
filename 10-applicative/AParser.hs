@@ -60,9 +60,7 @@ posInt = Parser f
 
 -- Exercise 1: build a functor instance for Parser
 instance Functor Parser where
-  fmap f pa = Parser go
-    where
-      go input = (applyFirst f) <$> runParser pa input
+  fmap f pa = Parser (\str -> applyFirst f <$> runParser pa str)
 
 applyFirst :: (a -> b) -> (a, c) -> (b, c)
 applyFirst f (a, c) = (f a, c)
@@ -70,16 +68,10 @@ applyFirst f (a, c) = (f a, c)
 -- Exercise 2: build an applicative instance for Parser
 instance Applicative Parser where
   pure a = Parser (\str -> Just (a, str))
-  pf <*> pa = Parser go
-    where
-      go input = case (func, value) of
-        (Just (f, _), Just (a, rest)) -> Just (f a, rest)
-        _ -> Nothing
-        where
-          func = runParser pf input
-          value = case func of
-            Just (_, rest) -> runParser pa rest
-            _ -> Nothing
+  pf <*> pa = Parser $ \str ->
+    case runParser pf str of
+      Nothing -> Nothing
+      Just (f, rest) -> runParser (f <$> pa) rest
 
 -- Exercise 3: testing the applicative instance
 abParser :: Parser (Char, Char)
