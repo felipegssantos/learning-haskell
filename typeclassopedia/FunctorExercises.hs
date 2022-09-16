@@ -59,6 +59,14 @@ instance Functor ITree where
     4. Give an example of a type of kind * -> * which cannot be made an instance of Functor (without using undefined).
 -}
 
+newtype Example a = Example (a -> e)
+-- This is just the opposite (in some sense) of the ((->) e) functor.
+-- Given f :: a -> b and g :: a -> e, there is no way to build an
+-- h :: b -> e from f and g alone. The best one could do would be to
+-- somehow express g = f . h, but this maps "arrows" a -> b into "arrows"
+-- (Example b) -> (Example a), which are in the opposite direction of
+-- what we want.
+
 {-
     5. Is this statement true or false?
 
