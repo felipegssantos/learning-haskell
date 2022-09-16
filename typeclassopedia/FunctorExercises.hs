@@ -22,6 +22,25 @@ instance Functor (MyFunc e) where
        Explain their similarities and differences.
 -}
 
+data MyTuple a b = T (a, b)
+  deriving Show
+
+data Pair a = Pair a a
+  deriving Show
+
+-- while Pair is a pair of values with same type, ((,) e) is a pair of
+-- values whose first element is of type e and second one has any type
+
+instance Functor (MyTuple e) where
+  fmap g (T (e, x)) = T (e, g x)
+  -- given g :: a -> b, this only makes sense with we apply g to the
+  -- second argument of the tuple
+
+instance Functor Pair where
+  fmap g (Pair x y) = Pair (g x) (g y)
+  -- given g :: a -> b, because both values in Pair are of the same type,
+  -- it makes sense to apply g to both of them
+
 {-
     3. Implement a Functor instance for the type ITree, defined as
 
