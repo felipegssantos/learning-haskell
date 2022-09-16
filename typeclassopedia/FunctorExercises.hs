@@ -48,6 +48,13 @@ instance Functor Pair where
                       | Node [ITree a]
 -}
 
+data ITree a = Leaf (Int -> a)
+             | Node [ITree a]
+
+instance Functor ITree where
+  fmap g (Leaf h) = Leaf (g . h)
+  fmap g (Node ts) = Node $ map (fmap g) ts
+
 {-
     4. Give an example of a type of kind * -> * which cannot be made an instance of Functor (without using undefined).
 -}
