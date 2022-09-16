@@ -67,3 +67,10 @@ instance Functor ITree where
        If false, give a counterexample; if true, prove it by exhibiting some appropriate Haskell code.
 -}
 
+newtype Composed f g x = Compose (f (g x))
+
+instance (Functor f1, Functor f2) => Functor (Composed f1 f2) where
+  fmap g (Compose x) = Compose (fmap (fmap g) x)
+
+-- therefore, it is true
+
