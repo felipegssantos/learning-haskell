@@ -23,7 +23,7 @@ oneOrMore p = liftA2 (:) p (zeroOrMore p)
 ------------------------------------------------------------
 
 spaces :: Parser String
-spaces = oneOrMore $ char ' '
+spaces = zeroOrMore $ char ' '
 
 ident :: Parser String
 ident = liftA2 (:) (satisfy isAlpha) (oneOrMore $ satisfy isAlphaNum)
