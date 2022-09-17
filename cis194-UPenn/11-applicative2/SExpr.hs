@@ -26,7 +26,7 @@ spaces :: Parser String
 spaces = zeroOrMore $ char ' '
 
 ident :: Parser String
-ident = liftA2 (:) (satisfy isAlpha) (oneOrMore $ satisfy isAlphaNum)
+ident = liftA2 (:) (satisfy isAlpha) (zeroOrMore $ satisfy isAlphaNum)
 
 ------------------------------------------------------------
 --  3. Parsing S-expressions
