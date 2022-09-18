@@ -23,6 +23,16 @@ class Monoidal f => Applicative f where
 -- a test instance
 instance Main.Applicative Maybe
 
+class Prelude.Applicative f => Monoidal' f where
+  unit' :: f ()
+  unit' = Prelude.pure ()
+
+  (**!) :: f a -> f b -> f (a, b)
+  x **! y = (,) <$> x Prelude.<*> y
+
+-- a test instance
+instance Monoidal' Maybe
+
 {-
     2. Are there any Applicative instances for which there are also functions
        f () -> () and f (a,b) -> (f a, f b), satisfying some "reasonable" laws?
