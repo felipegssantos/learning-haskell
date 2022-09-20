@@ -33,14 +33,3 @@ class Prelude.Applicative f => Monoidal' f where
 -- a test instance
 instance Monoidal' Maybe
 
-{-
-    2. Are there any Applicative instances for which there are also functions
-       f () -> () and f (a,b) -> (f a, f b), satisfying some "reasonable" laws?
--}
-
-{-
-    3. (Tricky) Prove that given your implementations from the first exercise,
-       the usual Applicative laws and the Monoidal laws stated above are
-       equivalent.
--}
-
